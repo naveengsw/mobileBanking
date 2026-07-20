@@ -1,0 +1,29 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# Java / Maven
+**/target/
+**/.classpath
+**/.project
+**/.settings/
+**/.factorypath
+
+# Android / Gradle
+**/.gradle/
+**/build/
+**/captures/
+**/local.properties
+**/out/
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
