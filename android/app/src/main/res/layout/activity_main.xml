@@ -37,10 +37,29 @@
         android:layout_height="wrap_content"
         android:text="Log In" />
 
+    <ImageButton
+        android:id="@+id/biometricLoginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@android:drawable/ic_dialog_info"
+        android:contentDescription="Biometric Login"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
     <TextView
         android:id="@+id/resultView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Waiting for login..." />
+
+    <TextView
+        android:id="@+id/branchLocateLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Branch Locate"
+        android:textColor="?android:attr/colorAccent"
+        android:clickable="true"
+        android:focusable="true" />
 </LinearLayout>
