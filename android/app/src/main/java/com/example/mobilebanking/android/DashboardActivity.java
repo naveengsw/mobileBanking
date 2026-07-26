@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import okhttp3.Call;
@@ -21,12 +23,12 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class DashboardActivity extends AppCompatActivity {
-    private static final String ACCOUNTS_URL = "http://192.168.86.123:8080/api/accounts";
+    private static final String ACCOUNTS_URL = "https://192.168.86.123:8443/api/accounts";
     private static final String SHARED_PREFS_NAME = "insecure_prefs";
     private static final String PREF_EMAIL = "email";
     private static final String PREF_SESSION_TOKEN = "sessionToken";
 
-    private final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = InsecureOkHttpClient.getInsecureOkHttpClient();
     private final Gson gson = new Gson();
     private SharedPreferences insecurePrefs;
 

@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <base-config cleartextTrafficPermitted="true">
+    <!-- FIX 1 & 2: Disable global cleartext traffic and restrict trust anchors -->
+    <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
+            <!-- Only trust system certificates for all other domains -->
             <certificates src="system" />
         </trust-anchors>
     </base-config>
+
+    <!-- Specific configuration for your local API -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.86.123</domain>
+        <trust-anchors>
+            <certificates src="@raw/local_api_cert" />
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
 </network-security-config>

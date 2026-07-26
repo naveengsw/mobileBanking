@@ -1,6 +1,7 @@
 package com.example.mobilebanking.android;
 
 import android.os.Bundle;
+import android.util.Log;
 import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,16 +18,26 @@ public class BranchLocateActivity extends FragmentActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_branch_locate);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+        
+        Log.d("BranchLocate", "onCreate: Adding SupportMapFragment programmatically");
+        
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.map_container, mapFragment)
+                .commit();
+        
+        mapFragment.getMapAsync(this);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("BranchLocate", "onMapReady: Map is ready");
         mMap = googleMap;
+
+        // Force UI updates to see if anything changes
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
 
         // Add some dummy branches
         LatLng branch1 = new LatLng(37.7749, -122.4194); // San Francisco
@@ -37,6 +48,6 @@ public class BranchLocateActivity extends FragmentActivity implements OnMapReady
         mMap.addMarker(new MarkerOptions().position(branch2).title("LA Downtown Branch"));
         mMap.addMarker(new MarkerOptions().position(branch3).title("NYC Wall St Branch"));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(branch1, 4.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(branch1, 10.0f));
     }
 }

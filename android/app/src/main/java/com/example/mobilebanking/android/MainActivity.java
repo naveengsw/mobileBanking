@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
+
+import com.example.util.CryptoUtils;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.Proxy;
@@ -33,11 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREF_SESSION_TOKEN = "sessionToken";
     private static final String PREF_BALANCE = "balance";
     private static final String HARDCODED_API_KEY = "demo-insecure-api-key-12345";
-    private static final String LOGIN_URL = "http://192.168.86.123:8080/api/login";
+    private static final String LOGIN_URL = "https://192.168.86.123:8443/api/login";
 
-    private final OkHttpClient client = new OkHttpClient.Builder()
-            //.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.86.123", 8080)))
-            .build();
+    private final OkHttpClient client = InsecureOkHttpClient.getInsecureOkHttpClient();
     private final Gson gson = new Gson();
     private SharedPreferences insecurePrefs;
 
@@ -136,7 +136,11 @@ public class MainActivity extends AppCompatActivity {
             String password = passwordField.getText().toString();
             resultView.setText("Signing in...");
 
-            String json = String.format("{\"email\":\"%s\",\"password\":\"%s\"}", email, password);
+            // Encrypt password before sending using local_api_cert
+            String encryptedPassword = CryptoUtils.encryptPassword(password);
+
+            String json = String.format("{\"email\":\"%s\",\"password\":\"%s\"}", email, encryptedPassword);
+            Log.d("MainActivity", "Login Payload: " + json);
             RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
             Request request = new Request.Builder()
                     .url(LOGIN_URL)
