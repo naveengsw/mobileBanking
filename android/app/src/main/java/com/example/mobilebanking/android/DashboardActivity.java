@@ -29,6 +29,7 @@ public class DashboardActivity extends AppCompatActivity {
     private static final String PREF_SESSION_TOKEN = "sessionToken";
 
     private final OkHttpClient client = InsecureOkHttpClient.getInsecureOkHttpClient();
+
     private final Gson gson = new Gson();
     private SharedPreferences insecurePrefs;
 
